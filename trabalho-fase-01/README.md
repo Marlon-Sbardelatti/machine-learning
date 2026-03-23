@@ -17,3 +17,5 @@ O problema é a presença do outlier A(13, 12.74) nos dados de entrada. Ele, jus
 Antes de ajustar o modelo de regressão, deve-se verificar se é possível (e necessário) realizar algum tratamento nos dados. Esse ponto que é um outlier, por exemplo, pode ser resultado de medição incorreta ou dados fora do escopo.
 
 Para verificar se a remoção do outlier é uma decisão correta (e não somente inserção de viés no dataset), deve ser analisada sua adequação ao conjunto de dados/contexto e o impacto de sua remoção no desempenho do modelo através de métricas como o R² e o EQM.
+
+O resultado ao remover o outlier pode ser verificado [nesta imagem](/trabalho-fase-01/dataset-5.png).
