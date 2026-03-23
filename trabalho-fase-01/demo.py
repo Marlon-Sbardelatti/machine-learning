@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import math
 
 """
-    Equipe: Cristina Siewert Jansen, Marlon Sbardelatti,Sofia Sousa Lindner
+    Equipe: Cristina Siewert Jansen, Marlon Sbardelatti, Sofia Sousa Lindner
     Professora: Andreza Sartori
     As respostas das questões 3) e 4) da Fase 1 estão no README.md.
 """
