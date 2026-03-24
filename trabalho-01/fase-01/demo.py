@@ -39,6 +39,7 @@ def correlation(x_axis: List[float], y_axis: List[float]) -> float:
     y_avg = average(y_axis)
 
     points = list(zip(x_axis, y_axis))
+    
     dev = deviation(points, x_avg, y_avg)
     var = variance(x_axis, y_axis, x_avg, y_avg)
 
@@ -56,8 +57,11 @@ def regression(x_axis: List[float], y_axis: List[float]):
     
     b1 = sum_dev / sqr_dev_x
     b0 = y_avg - (b1 * x_avg)
-
-    return b0, b1
+    
+    def unknown_function(x: float):
+        return b0 + b1 * x
+    
+    return b0, b1, [unknown_function(xi) for xi in x_axis]
 
 
 def sum_squared_deviation_x(x_axis: List[float], x_avg: float) -> float:
@@ -93,17 +97,15 @@ def main():
         x = dt["x"]
         y = dt["y"]
         
-        # Dispersão
-        scatter_dispersion_graph(x, y)
-        
         # Correlação
         r = correlation(x, y)
         
         # Regressão
-        b0, b1 = regression(x, y)
-
-        # Linha de regressão
-        y_model = [b0 + b1 * xi for xi in x]
+        b0, b1, y_model = regression(x, y)
+        
+        # Gráfico
+        scatter_dispersion_graph(x, y)
+        
         plt.plot(x, y_model)
         
         plt.title(f"r = {r:.4f} | β0 = {b0:.4f} | β1 = {b1:.4f}")
