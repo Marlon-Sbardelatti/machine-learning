@@ -2,20 +2,21 @@ from typing import List
 import matplotlib.pyplot as plt
 import math
 
+"""
+    Equipe: Cristina Siewert Jansen, Marlon Sbardelatti, Sofia Sousa Lindner
+    Professora: Andreza Sartori
+    As respostas das questões 3) e 4) da Fase 1 estão no README.md.
+"""
 
 def scatter_dispersion_graph(x_axis: List[float], y_axis: List[float]):
     plt.scatter(x_axis, y_axis)
     plt.xlabel("X")
     plt.ylabel("Y")
-    plt.show()
 
 
 def average(axis: List[float]) -> float:
-    sum = 0
-    for element in axis:
-        sum += element
-
-    return sum / len(axis)
+    total_sum = sum([el for el in axis])
+    return total_sum / len(axis) 
 
 
 def deviation(points: List[tuple[float, float]], x_avg: float, y_avg: float) -> float:
@@ -50,18 +51,13 @@ def regression(x_axis: List[float], y_axis: List[float]):
 
     points = list(zip(x_axis, y_axis))
 
-    b0_dev = deviation(points, x_avg, y_avg)
-    b1_sum_sqr_dev = sum_squared_deviation_x(x_axis, x_avg)
-    b1 = b0_dev / b1_sum_sqr_dev
+    sum_dev = deviation(points, x_avg, y_avg)
+    sqr_dev_x = sum_squared_deviation_x(x_axis, x_avg)
+    
+    b1 = sum_dev / sqr_dev_x
     b0 = y_avg - (b1 * x_avg)
-    print(b0)
-    print(b1)
-    print()
 
-    def unknown_function(x):
-        return b0 + b1 * x
-
-    return unknown_function
+    return b0, b1
 
 
 def sum_squared_deviation_x(x_axis: List[float], x_avg: float) -> float:
@@ -86,20 +82,35 @@ def main():
             "x": [10.0, 8.0, 13.0, 9.0, 11.0, 14.0, 6.0, 4.0, 12.0, 7.0, 5.0],
             "y": [7.46, 6.77, 12.74, 7.11, 7.81, 8.84, 6.08, 5.39, 8.15, 6.42, 5.73],
         },
+        {
+            "x": [10.0, 8.0, 9.0, 11.0, 14.0, 6.0, 4.0, 12.0, 7.0, 5.0], # Sem x do outlier
+            "y": [7.46, 6.77, 7.11, 7.81, 8.84, 6.08, 5.39, 8.15, 6.42, 5.73], # Sem y do outlier
+        },
     ]
 
-    count = 1
+    graph_index = 0
     for dt in datasets:
         x = dt["x"]
         y = dt["y"]
+        
+        # Dispersão
         scatter_dispersion_graph(x, y)
+        
+        # Correlação
         r = correlation(x, y)
-        print(r)
-        unknown_function = regression(x, y)
-        model = list(map(unknown_function, x))
-        plt.plot(x, model)
-        plt.savefig(f"dataset-{count}.png")
-        count += 1
+        
+        # Regressão
+        b0, b1 = regression(x, y)
+
+        # Linha de regressão
+        y_model = [b0 + b1 * xi for xi in x]
+        plt.plot(x, y_model)
+        
+        plt.title(f"r = {r:.4f} | β0 = {b0:.4f} | β1 = {b1:.4f}")
+        
+        plt.savefig(f"dataset-{graph_index + 1}.png")
+        
+        graph_index += 1
         plt.close()
 
 
